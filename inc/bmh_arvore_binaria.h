@@ -10,21 +10,8 @@
 
 #include "bmh_arvore_n_aria.h"
 
-typedef enum {
-    BMH_ARV_BINARIA_ESQ = 0,
-    BMH_ARV_BINARIA_DIR = 1
-} BmhConstantesArvoreBinaria; /*Constante Para 
-Facilitar Acesso Ou Leitura Nas Árvores Binárias */
-
-typedef struct BmhArvoreN_Aria BmhArvoreN_Aria; 
-typedef enum BmhStatus BmhStatus; 
-typedef struct BmhDado BmhDado;
-
-BmhStatus insercao_desordenada_bmh_arvore_binaria(BmhArvoreN_Aria **ptr_para_arvore, 
-BmhDado dado); /*Insere Dados De Forma Que A Árvore Fique Completa*/
 BmhStatus insercao_ordenada_bmh_arvore_binaria(BmhArvoreN_Aria **ptr_para_arvore, 
-BmhDado dado); /*Insere Ordenadamente Dados Na Árvore.*/
-BmhStatus balancear_bmh_arvore_binaria(BmhArvoreN_Aria **ptr_para_arvore); /*
-Balanceia Árvore Binária,*/
-
+BmhDadoEspecifico dado); //Insere Dados Ordenadamentes Em Uma Árvore Binária
+BmhDadoQlqr busca_ordenada_bmh_arvore_binaria(BmhArvoreN_Aria *arvore_binaria, 
+BmhDadoEspecifico dado); //Procura Dados Que Estejam Em Uma Árvore Binária Que Está Ordenada
 #endif

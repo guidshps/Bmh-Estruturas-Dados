@@ -1,11 +1,11 @@
-#ifndef BMH_ARVORE_BINARIA_H
-#define BMH_ARVORE_BINARIA_H
+#ifndef BMH_ARVORE_N_ARIA_H
+#define BMH_ARVORE_N_ARIA_H
 #pragma once
 
 #include "comum_bmh.h"
 
 typedef struct BmhNoArvoreN_Aria {
-    BmhDadoQlqr dado; //Contém o Dado Efetivo do Nó
+    BmhDadoEspecifico dado; //Contém o Dado Efetivo do Nó
     struct BmhNoArvoreN_Aria **nos_filhos; //Filhos Que Ela Possui
     int qtd_nos_filhos; //Quantidade De Nós Filhos Salvos 
 } BmhNoArvoreN_Aria; //Nós da Árvore N-Ária
@@ -28,7 +28,7 @@ Destroi Toda Árvore N-Ária.*/
 BmhStatus inserir_dado_bmh_arvore_n_aria(BmhArvoreN_Aria **ptr_para_arvore,
 BmhDadoQlqr dado, BmhChamadoFuncao metodo_insercao); /* Insere Dados Conforme
 O Método Imposto Caso Não Seja Colocada Não Funciona */
-BmhNoArvoreN_Aria *criar_bmh_no_arvore_n_aria(BmhDadoQlqr dado, 
+BmhNoArvoreN_Aria *criar_bmh_no_arvore_n_aria(BmhDadoEspecifico dado, 
 int qtd_filhos, BmhNoArvoreN_Aria **nos_filhos); /*Cria Um Nó Genérico Da
 Árvore N-Ária*/
 BmhStatus extender_array_filhos_bmh_no_arvore_n_aria(BmhNoArvoreN_Aria **ptr_no); 

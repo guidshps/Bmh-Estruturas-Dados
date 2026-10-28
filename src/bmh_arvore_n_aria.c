@@ -31,7 +31,7 @@ Cada Nó Irá Possuir */
 }
 
 BmhStatus inserir_dado_bmh_arvore_n_aria(BmhArvoreN_Aria **ptr_para_arvore, 
-BmhDadoQlqr dado, BmhChamadoFuncao metodo_insercao) { /*Função Que Insere Dado
+BmhDadoEspecifico dado, BmhChamadoFuncao metodo_insercao) { /*Função Que Insere Dado
 Conforme O Método De Inserção Proposto*/
     if (*ptr_para_arvore == NULL) { /*Verifica Se A Árvore Existe*/
         if (BMH_DEBUG)("Inserir Dado Em Árvore N-Ária: Esta Árvore Não Existe.\n");
@@ -69,22 +69,22 @@ int qtd_filhos, struct BmhNoArvoreN_Aria **nos_filhos) { /* Função Auxiliar Qu
 }
 
 BmhStatus extender_array_filhos_bmh_no_arvore_n_aria(BmhNoArvoreN_Aria **ptr_no) {
-/*Aumenta O Array Dos Filhos Em Uma Espaço E Transfere Os Dados Antigos.
+/*Aumenta O Array Dos Filhos Em Um Espaço E Transfere Os Dados Antigos.
 Obs: Aumenta Um Espaço De Cada Vez*/
     BmhNoArvoreN_Aria **nos_filhos_aux = NULL;
     int lar_array_filhos; //Largura do Array Dos Filhos
 
-    if (ptr_no != NULL) {
+    if (*ptr_no == NULL) {
         if (BMH_DEBUG) printf("Extender Array Filhos Bmh Nó Árvore N-Ária: Este Nó Não Existe.\n");
         return BMH_ESTRUTURA_N_EXISTE;
     }
 
     lar_array_filhos = (*ptr_no)->qtd_nos_filhos + 1; //Incrementa 1 Na Quantidade De Filhos
-    nos_filhos_aux = calloc(lar_array_filhos, sizeof(BmhNoArvoreN_Aria*)); //Tenta Aloca Memória
+    nos_filhos_aux = calloc(lar_array_filhos, sizeof(BmhNoArvoreN_Aria *)); //Tenta Aloca Memória
 
     if (nos_filhos_aux == NULL) { //Verifica Se Conseguiu Alocar Memória
         if (BMH_DEBUG) printf("Extender Array Filhos Bmh Nó Árvore N-Ária: Ocorreu Um Erro Na Alocação De Memória.\n");
-        return BMH_ERRO;
+        return BMH_ERRO_AO_ALOCAR;
     }
 
     for (int i = 0; i < (*ptr_no)->qtd_nos_filhos; i++) { /*
