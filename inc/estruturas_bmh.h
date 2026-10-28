@@ -2,6 +2,6 @@
 #define ESTRUTURAS_BMH_H
 #pragma once
 
-#include "bmh_lista.h"
+#include "comum_bmh.h"
 
 #endif
