@@ -31,7 +31,7 @@ Cada Nó Irá Possuir */
 }
 
 BmhStatus inserir_dado_bmh_arvore_n_aria(BmhArvoreN_Aria **ptr_para_arvore, 
-BmhDadoEspecifico dado, BmhChamadoFuncao metodo_insercao) { /*Função Que Insere Dado
+BmhDadoEspecifico dado, BmhChamadoFuncao2 metodo_insercao) { /*Função Que Insere Dado
 Conforme O Método De Inserção Proposto*/
     if (*ptr_para_arvore == NULL) { /*Verifica Se A Árvore Existe*/
         if (BMH_DEBUG)("Inserir Dado Em Árvore N-Ária: Esta Árvore Não Existe.\n");

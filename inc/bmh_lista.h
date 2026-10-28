@@ -12,7 +12,7 @@ typedef struct BmhLista {
 O Tipo De Dado Que Está Guardado.*/
 
 BmhStatus mostrar_informacoes_bmh_lista(BmhLista *lista, bool mostrar_info, bool mostrar_dados); //Mostra Informações Da Lista
-BmhStatus criar_bmh_vetor(BmhLista **ptr_para_vetor); //Cria Bmh Lista
+BmhStatus criar_bmh_lista(BmhLista **ptr_para_vetor); //Cria Bmh Lista
 BmhStatus destruir_bmh_lista(BmhLista **ptr_para_vetor); //Destroi ou Limpa Bmh Vetor
 BmhStatus inserir_dado_no_bmh_lista(BmhLista **ptr_para_vetor, BmhDadoQlqr dado); //Insere Dado Na Bmh Lista
 BmhStatus trocar_dados_internos_bmh_lista(BmhLista **ptr_para_vetor, int end_1, int end_2); //Realiza Uma Troca Da Posição Dos Dados

@@ -26,7 +26,7 @@ Destroi Uma Sub-Árvore N-Ária, Vale Ressaltar Que A Raiz É Uma Sub-Árvore.*/
 BmhStatus destruir_bmh_arvore_n_aria(BmhArvoreN_Aria **ptr_para_arvore); /*
 Destroi Toda Árvore N-Ária.*/
 BmhStatus inserir_dado_bmh_arvore_n_aria(BmhArvoreN_Aria **ptr_para_arvore,
-BmhDadoQlqr dado, BmhChamadoFuncao metodo_insercao); /* Insere Dados Conforme
+BmhDadoQlqr dado, BmhChamadoFuncao2 metodo_insercao); /* Insere Dados Conforme
 O Método Imposto Caso Não Seja Colocada Não Funciona */
 BmhNoArvoreN_Aria *criar_bmh_no_arvore_n_aria(BmhDadoEspecifico dado, 
 int qtd_filhos, BmhNoArvoreN_Aria **nos_filhos); /*Cria Um Nó Genérico Da

@@ -7,8 +7,7 @@ typedef enum {
 Facilitar Acesso Ou Leitura Nas Árvores Binárias */
 
 BmhStatus insercao_ordenada_bmh_arvore_binaria(BmhArvoreN_Aria **ptr_para_arvore, 
-BmhDadoEspecifico dado) { /*Insere Ordenadamente Dados Na Árvore. Necessário Dado Númerico 
-(Nesse Caso Foi Considerado Que O Dado Fosse Do Tipo Inteiro)*/
+BmhDadoEspecifico dado) { //Insere Ordenadamente Dados Na Árvore. 
     BmhNoArvoreN_Aria *no_criado = NULL; //Variável Auxiliar Para Criação Do Nó
     BmhNoArvoreN_Aria *no_atual = NULL; //Variável Auxiliar Para Navegar Na Árvore
     int altura_atual = 0; //Variável Que Conta Quanto Nó Atual Subiu Para Atualizações
