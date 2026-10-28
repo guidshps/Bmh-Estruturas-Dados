@@ -3,5 +3,6 @@
 #pragma once
 
 #include "comum_bmh.h"
+#include "bmh_array.h"
 
 #endif
