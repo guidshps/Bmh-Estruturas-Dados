@@ -3,7 +3,8 @@
 
 #include "comum_bmh.h"
 
-#define FATOR_CRESCIMENTO_BMH_ARRAY 0.12 /*Valor Que Indica Quantos % Vai Crescer 
+#define TAMANHO_INICIAL_BMH_ARRAY 5 //Indica Tamanho Inicial Que Array Irá Possuir
+#define FATOR_CRESCIMENTO_BMH_ARRAY 0.25 /*Valor Que Indica Quantos % Vai Crescer 
 O Array Ao Aumentar O Array Dos Dados, Ou Seja, 
 TAMANHO_ATUAL * (1 + "FATOR_CRESCIMENTO_BMH_ARRAY") */
 
@@ -22,5 +23,8 @@ BmhPonteiroQualquer acessar_endereco_bmh_array(BmhArray *array, size_t endereco)
 Enviado Pelo Usuário E Devolve Ele*/
 BmhPonteiroQualquer busca_linear_bmh_array(BmhArray *array, BmhPonteiroQualquer dado,
 BmhComparador metodo_comparacao); //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
+BmhStatus ordenacao_rapida_bmh_array(BmhArray **ptr_array, 
+BmhComparador metodo_comparacao); /*Realiza A Quick Sort Na Lista Com O Método Que O 
+Usúario Destinou Para Usar*/
 
 #endif
