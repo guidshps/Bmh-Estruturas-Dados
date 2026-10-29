@@ -50,9 +50,10 @@ typedef enum BmhConstantesComparacao {
 } BmhConstantesComparacao;
 
 typedef void * BmhPonteiroQualquer; //Recebe Qualquer Tipo De Ponteiro
+typedef const void * BmhPonteiroQualquerCnst; //Recebe Um Ponteiro Constante
 typedef unsigned char BmhByte; //Variável Que Possui Tamanho De 1 Byte
 
 typedef BmhStatus(BmhAtribuicao)(BmhPonteiroQualquer, BmhPonteiroQualquer);
-typedef BmhConstantesComparacao(BmhComparador)(BmhPonteiroQualquer, BmhPonteiroQualquer);
+typedef int(BmhComparador)(BmhPonteiroQualquerCnst, BmhPonteiroQualquerCnst);
 
 #endif

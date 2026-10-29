@@ -29,13 +29,10 @@ clean:
 	rm -rf $(obj_folder) valgrind.txt $(app)
 
 $(app): $(obj)
-	$(CC)  $(obj) -o $(app) -I$(inc_folder)
-
-$(app_debug): $(obj_debug)
-	$(CC) $(obj_debug) -o $(app) -I$(inc_folder)
+	$(CC)  $(obj) -o $(app) -I$(inc_folder) -lm
 	
 $(obj): $(obj_folder)/%.o: $(src_folder)/%.c | $(obj_folder)
-	$(CC) $(DEFS) -c $^ -o $@ -I$(inc_folder)
+	$(CC) $(DEFS) -c $^ -o $@ -I$(inc_folder) -lm
 
 $(obj_folder):
 	mkdir $(obj_folder)
