@@ -16,5 +16,11 @@ typedef struct BmhArray {
 
 BmhStatus criar_bmh_array(BmhArray **ptr_array, size_t t_dados); //Cria Bmh Array 
 BmhStatus destruir_bmh_array(BmhArray **ptr_array); //Destroí Bmh Array
+BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dado,
+BmhAtribuicao metodo_atribuicao); //Atribui Dado Para O Array (Último Endereço)
+BmhPonteiroQualquer acessar_endereco_bmh_array(BmhArray *array, size_t endereco); /*Acessa Endereço
+Enviado Pelo Usuário E Devolve Ele*/
+BmhPonteiroQualquer busca_linear_bmh_array(BmhArray *array, BmhPonteiroQualquer dado,
+BmhComparador metodo_comparacao); //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
 
 #endif

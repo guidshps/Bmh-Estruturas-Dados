@@ -76,7 +76,7 @@ static BmhStatus talvez_aumente_bmh_array(BmhArray **ptr_array) { //Aumenta Arra
 }
 
 BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dado,
-BmhAtribuicao metodo_atribuicao) { //Atribui Dado Para O Array
+BmhAtribuicao metodo_atribuicao) { //Atribui Dado Para O Array (Último Endereço)
     if (*ptr_array == NULL) { //Verifica Se Array Existe
         bmh_log_fracasso("Adicionar Dado Bmh Array: Este Array Não Existe!");
         return BMH_USO_INCORRETO;
@@ -103,4 +103,59 @@ BmhAtribuicao metodo_atribuicao) { //Atribui Dado Para O Array
     metodo_atribuicao(ptr_array, dado); //Atribui Dado Na Array
 
     return BMH_OK; //Retorna Operação Sucedida Caso Dê Certo
+}
+
+BmhPonteiroQualquer acessar_endereco_bmh_array(BmhArray *array, size_t endereco) {
+    if (array == NULL) { //Verifica Se Array Existe
+        bmh_log_fracasso("Acessar Endereço Bmh Array: Este Array Não Existe!");
+        return NULL; //Devolve Endereço Nulo, Já Que Não Conseguiu Acessar Elemento
+    }
+    
+    else if (endereco < 0 || endereco >= array->q_dados) { // Verifica Se Endereço É Válido
+        bmh_log_fracasso("Acessar Endereço Bmh Array: Este Endereço É Inválido!");
+        bmh_log_avisar("Acessar Endereco Bmh Array: Vale Ressaltar Que O Conjunto De Endereços É De (0 a N)!");
+        return NULL; //Devolve Endereço Nulo, Já Que Não Conseguiu Acessar Elemento
+    }
+
+    else if (array->dados == NULL) { //Verifica Se Existe Dados
+        bmh_log_fracasso("Acessar Endereço Bmh Array: Não Existe Dados!\n");
+        return NULL; //Devolve Endereço Nulo, Já Que Não Conseguiu Acessar Elemento
+    }
+
+    BmhByte *ptr_base = array->dados; //Ptr Base Para Acessar Dados
+    return ptr_base + endereco * array->t_dados; //Retorna Endereço Enviado
+}
+
+BmhPonteiroQualquer busca_linear_bmh_array(BmhArray *array, BmhPonteiroQualquer dado,
+BmhComparador metodo_comparacao) { //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
+    if (array == NULL) { //Verifica Se Array Existe
+        bmh_log_fracasso("Busca Linear Bmh Array: Este Array Não Existe!");
+        return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
+    }
+
+    else if (dado == NULL) { //Verifica Se Dado Existe
+        bmh_log_fracasso("Busca Linear Bmh Array: Este Dado Não Existe!");
+        return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
+    }
+
+    else if (array->dados == NULL || array->lar == 0 || array->q_dados == 0) {
+        bmh_log_fracasso("Busca Linear Bmh Array: Não Existe Um Conjunto De Dados!");
+        return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
+    }
+
+    else if (metodo_comparacao == NULL) {
+        bmh_log_fracasso("Busca Linear Bmh Array: Método de Comparação Inválido!");
+        return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
+    }
+
+    BmhByte *ptr_base = array->dados; //Passa Ponteiro Base Como Referência
+
+    for (int i = 0; i < array->q_dados; i++) {
+        if (metodo_comparacao(ptr_base + i * array->t_dados, dado) == BMH_DADOS_IGUAIS) {
+            bmh_log_sucesso("Busca Linear Bmh Array: O Dado Foi Achado!\n");
+            return ptr_base + i * array->t_dados; //Devolve Endereço Do Dado Achado
+        }
+    }
+
+    return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
 }
