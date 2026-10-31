@@ -1,11 +1,20 @@
 #include "bmh_array.h"
 
-BmhStatus criar_bmh_array(BmhArray **ptr_array, size_t t_dados) { //Cria Bmh Array
-    if (*ptr_array != NULL) { //Verifica Se Ponteiro Exsite
+BmhStatus criar_bmh_array( 
+    BmhArray **ptr_array, //Ponteiro Para O Array Destino
+    size_t t_dados //Tamanho dos Dados Armazenados No Array
+) //Cria Bmh Array 
+{ 
+    if (ptr_array == NULL) { //Verifica Se Ponteiro Existe
+        bmh_log_fracasso("Criar Bmh Array: Este Ponteiro Não Existe!");
+        return BMH_ESTRUTURA_N_EXISTE;
+    }
+    
+    else if (*ptr_array != NULL) { //Verifica Se Array Exsite
         bmh_log_fracasso("Criar Bmh Array: Este Array Já Existe!");
         return BMH_USO_INCORRETO;
     }
-
+    
     else if (t_dados <= 0) { //Verifica Se Tamanho Dos Dados É Válido
         bmh_log_fracasso("Criar Bmh Array: Tamanho De Dado Inválido!");
         return BMH_USO_INCORRETO;
@@ -23,8 +32,17 @@ BmhStatus criar_bmh_array(BmhArray **ptr_array, size_t t_dados) { //Cria Bmh Arr
     return BMH_OK;
 }
 
-BmhStatus destruir_bmh_array(BmhArray **ptr_array) { //Destroí Bmh Array
-    if (*ptr_array == NULL) { //Verifica Se Ponteiro Exsite
+BmhStatus destruir_bmh_array(
+    BmhArray **ptr_array //Ponteiro Para O Array Destino
+) //Destroí Bmh Array
+{
+
+    if (ptr_array == NULL) {
+        bmh_log_fracasso("Destruir Bmh Array: Este Ponteiro Não Existe!");
+        return BMH_ESTRUTURA_N_EXISTE;
+    }
+
+    else if (*ptr_array == NULL) { //Verifica Se Ponteiro Exsite
         bmh_log_fracasso("Destruir Bmh Array: Este Array Não Existe!");
         return BMH_USO_INCORRETO;
     }
@@ -40,18 +58,25 @@ BmhStatus destruir_bmh_array(BmhArray **ptr_array) { //Destroí Bmh Array
     return BMH_OK;
 }
 
-static BmhStatus talvez_aumente_bmh_array(BmhArray **ptr_array) { //Aumenta Array Caso Seja Necessário
+static BmhStatus talvez_aumente_bmh_array(
+    BmhArray **ptr_array //Ponteiro Para O Array Destino
+) //Aumenta O Tamanho Do Espaço Que O Ponteiro Dos Dados Aponta, Caso Necessário 
+{ 
     BmhPonteiroQualquer ptr_auxiliar = NULL; /*Variável Auxiliar Para
     Realizar Alocação De Memória E Transferência De Dados.*/
 
-    if (*ptr_array == NULL) {
+    if (ptr_array == NULL) {
+        bmh_log_fracasso("Aumentar Bmh Array: Este Ponteiro Não Existe!");
+        return BMH_ESTRUTURA_N_EXISTE;
+    }
+
+    else if (*ptr_array == NULL) {
         bmh_log_fracasso("Aumentar Bmh Array: Este Array Não Existe!");
         return BMH_ESTRUTURA_N_EXISTE;
     }
 
-    if ((*ptr_array)->lar == 0 && (*ptr_array)->q_dados == 1 && 
-    (*ptr_array)->dados == NULL) { /*Recebe 1, Pois
-    Incrementa Dado Ao Entrar Aqui*/
+    if ((*ptr_array)->lar == 0 && (*ptr_array)->q_dados == 0 && 
+    (*ptr_array)->dados == NULL) {
         bmh_log_avisar("Talvez Aumente Bmh Array: Iniciando Espaço...");
         ptr_auxiliar = calloc(TAMANHO_INICIAL_BMH_ARRAY, (*ptr_array)->t_dados); //Aloca Espaço Inicial
 
@@ -65,7 +90,7 @@ static BmhStatus talvez_aumente_bmh_array(BmhArray **ptr_array) { //Aumenta Arra
         bmh_log_sucesso("Talvez Aumente Bmh Array: Sucesso Ao Alocar Espaço Inicial!");
     }
 
-    else if ((*ptr_array)->q_dados > (*ptr_array)->lar && 
+    else if ((*ptr_array)->q_dados + 1 > (*ptr_array)->lar && 
     (*ptr_array)->dados != NULL) { //Verifica Se Lista Conforta Dado
         bmh_log_avisar("Talvez Aumente Bmh Array: Tentando Aumentar Array...");
         unsigned int tamanho_antigo = (*ptr_array)->lar; //Tamanho Antigo Do Array
@@ -100,13 +125,21 @@ static BmhStatus talvez_aumente_bmh_array(BmhArray **ptr_array) { //Aumenta Arra
     return BMH_OK;
 }
 
-static BmhStatus atribuir_dado_byte_a_byte_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dado) {
-//Generaliza Qualquer Tipo De Atribuição Para O Array
+static BmhStatus atribuir_dado_byte_a_byte_bmh_array(
+    BmhArray **ptr_array, //Ponteiro Para O Array Destino
+    BmhPonteiroQualquer dado //Dado Que Irá Ser Copiado
+) //Passa Byte A Byte Para O Local Do Novo Dado
+{
     size_t endereco_acessado;
     BmhByte *array_base = NULL, *local_destino = NULL, *dado_convertido = NULL; /*Váriavel
     Auxiliar Para Salvar Dados */
 
-    if (*ptr_array == NULL) { //Verifica Se Ponteiro Existe
+    if (ptr_array == NULL) { //Verifica Se Ponteiro Existe
+        bmh_log_fracasso("Atribuir Dado Byte A Byte Bmh Array: Este Ponteiro Não Existe!");
+        return BMH_USO_INCORRETO;
+    }
+
+    else if (*ptr_array == NULL) { //Verifica Se Ponteiro Existe
         bmh_log_fracasso("Atribuir Dado Byte A Byte Bmh Array: Este Array Não Existe!");
         return BMH_USO_INCORRETO;
     }
@@ -136,7 +169,11 @@ static BmhStatus atribuir_dado_byte_a_byte_bmh_array(BmhArray **ptr_array, BmhPo
     return BMH_OK;
 }
 
-BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dado) { //Atribui Dado Para O Array (Último Endereço)
+BmhStatus adicionar_dado_bmh_array(
+    BmhArray **ptr_array, //Ponteiro Para O Array Destino
+    BmhPonteiroQualquer dado //Dado Que Irá Ser Adicionado No Array
+) //Atribui Dado Para O Array (Último Endereço) 
+{ 
     if (*ptr_array == NULL) { //Verifica Se Array Existe
         bmh_log_fracasso("Atribuir Dado Bmh Array: Este Array Não Existe!");
         return BMH_USO_INCORRETO;
@@ -146,8 +183,6 @@ BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dad
         bmh_log_fracasso("Atribuir Dado Bmh Array: Este Dado Não Existe!");
         return BMH_USO_INCORRETO;
     }
-    
-    (*ptr_array)->q_dados++; //Incrementa Quantidade De Dados Para Se Referenciar
 
     if (talvez_aumente_bmh_array(ptr_array) != BMH_OK) { /*Verifica Se Conseguiu Aumentar 
     Tamanho Do Array Ou Se Está Tudo Certo*/
@@ -157,6 +192,7 @@ BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dad
 
     if (atribuir_dado_byte_a_byte_bmh_array(ptr_array, dado) == BMH_OK) { //Verifica Se Atribuição Ocorreu Corretamente
         bmh_log_sucesso("Atribuir Dado Bmh Array: O Dado Foi Atribuido Corretamente!");
+        (*ptr_array)->q_dados++; //Incrementa Quantidade De Dados Para Se Referenciar
         return BMH_OK;
     }
 
@@ -166,8 +202,11 @@ BmhStatus adicionar_dado_bmh_array(BmhArray **ptr_array, BmhPonteiroQualquer dad
     }
 }
 
-BmhPonteiroQualquer acessar_endereco_bmh_array(BmhArray *array, size_t endereco) { /*Acessa Endereço
-Enviado Pelo Usuário.*/
+BmhPonteiroQualquer acessar_endereco_bmh_array(
+    BmhArray *array, //Array Destino
+    size_t endereco //Indice Do Dado Que Irá Ser Devolvido 
+) //Acessa Endereço Enviado Pelo Usuário E Devolve Ele 
+{
     if (array == NULL) { //Verifica Se Array Existe
         bmh_log_fracasso("Acessar Endereço Bmh Array: Este Array Não Existe!");
         return NULL; //Devolve Endereço Nulo, Já Que Não Conseguiu Acessar Elemento
@@ -188,8 +227,12 @@ Enviado Pelo Usuário.*/
     return ptr_base + endereco * array->t_dados; //Retorna Endereço Enviado
 }
 
-BmhPonteiroQualquer busca_linear_bmh_array(BmhArray *array, BmhPonteiroQualquer dado,
-BmhComparador metodo_comparacao) { //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
+BmhPonteiroQualquer busca_linear_bmh_array(
+    BmhArray *array, //Array Destino
+    BmhPonteiroQualquer dado, //Dado Que Irá Ser Buscado No Array
+    BmhComparador metodo_comparacao //Método Que Os Dados Serão Comparados
+) //Busca Linearmente Por Dado (Devolve Endereço Do Dado) 
+{ //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
     if (array == NULL) { //Verifica Se Array Existe
         bmh_log_fracasso("Busca Linear Bmh Array: Este Array Não Existe!");
         return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
@@ -223,8 +266,12 @@ BmhComparador metodo_comparacao) { //Busca Linearmente Por Dado (Devolve Endere�
     return NULL; //Retorna Nulo, Já Que Não Foi Possível Efetuar Operação
 }
 
-BmhPonteiroQualquer busca_binaria_bmh_array(BmhArray *array, BmhPonteiroQualquer dado,
-BmhComparador metodo_comparacao) { //Busca Binária Por Um Dado(Devolve Endereço Do Dado)
+BmhPonteiroQualquer busca_binaria_bmh_array(
+    BmhArray *array, //Array Destino
+    BmhPonteiroQualquer dado, //Dado Que Irá Ser Buscado No Array 
+    BmhComparador metodo_comparacao //Método Que Os Dados Serão Comparados
+) //Busca Linearmente Por Dado (Devolve Endereço Do Dado)
+{ 
     size_t end_min, end_ref, end_max, t_dados; //Variáveis Para Controle Da Posição
     BmhByte *array_base = NULL; //Endereço Inicial Do Dado
 
@@ -274,10 +321,18 @@ BmhComparador metodo_comparacao) { //Busca Binária Por Um Dado(Devolve Endereç
     return NULL;
 }
 
-BmhStatus ordenacao_rapida_bmh_array(BmhArray **ptr_array, 
-BmhComparador metodo_comparacao) { /*Realiza A Quick Sort Na Lista Com O Método Que O 
+BmhStatus ordenacao_rapida_bmh_array(
+    BmhArray **ptr_array, //Array Destino
+    BmhComparador metodo_comparacao //Método Que Os Dados Serão Comparados
+) //Realiza A Quick Sort Na Lista Com O Método Que O Usúario Destinou Para Usar
+{ /*Realiza A Quick Sort Na Lista Com O Método Que O 
 Usúario Destinou Para Usar*/
     if (ptr_array == NULL) { //Verifica Se Array Existe
+        bmh_log_fracasso("Ordenação Rápida Bmh Array: Ponteiro Não Existe!");
+        return BMH_ESTRUTURA_N_EXISTE;
+    }
+
+    else if (*ptr_array == NULL) {
         bmh_log_fracasso("Ordenação Rápida Bmh Array: Este Array Não Existe!");
         return BMH_ESTRUTURA_N_EXISTE;
     }
@@ -294,18 +349,26 @@ Usúario Destinou Para Usar*/
     return BMH_OK;
 }
 
-BmhStatus deletar_dado_bmh_array(BmhArray **ptr_array, size_t endereco) { /*Deleta Dado
-Indicado Do Array E Corrige As Posições Dos Dados*/
+BmhStatus deletar_dado_bmh_array(
+    BmhArray **ptr_array, //Array Destino
+    size_t endereco //Indice Do Dado Que Será Deletado
+)  //Deleta Dado Indicado Do Array E Corrige As Posições Dos Dados 
+{ 
     BmhPonteiroQualquer ptr_dado_destino = NULL; //Ponteiro Do Destino
     BmhByte *ptr_convertido = NULL; //Ponteiro Destino Convertido
     size_t tamanho_dado, qtd_dados; //Tamanho do Tipo Do Dado
 
-    if (*ptr_array == NULL) { //Verifica Se Ponteiro Existe
+    if (ptr_array == NULL) { //Verifica Se Existe Ponteiro
         bmh_log_fracasso("Deletar Dado Bmh Array: Este Array Não Existe!");
         return BMH_ESTRUTURA_N_EXISTE;
     }
 
-    else if (endereco > (*ptr_array)->q_dados) { //Verifica Se Endereço É Válido
+    else if (*ptr_array == NULL) { //Verifica Se Ponteiro Existe
+        bmh_log_fracasso("Deletar Dado Bmh Array: Este Array Não Existe!");
+        return BMH_ESTRUTURA_N_EXISTE;
+    }
+
+    else if (endereco >= (*ptr_array)->q_dados) { //Verifica Se Endereço É Válido
         bmh_log_fracasso("Deletar Dado Bmh Array: Este Endereço Está Fora Do Alcance!");
         return BMH_USO_INCORRETO; 
     }
@@ -315,7 +378,7 @@ Indicado Do Array E Corrige As Posições Dos Dados*/
     qtd_dados = (*ptr_array)->q_dados; //Atribui Quantidade De Dados
     tamanho_dado = (*ptr_array)->t_dados; //Atribui Tamanho Do Dano
 
-    for (int i = 0; i < tamanho_dado * qtd_dados; i++) {
+    for (int i = 0; i < tamanho_dado * (qtd_dados - endereco - 1); i++) {
         ptr_convertido[i] = ptr_convertido[i + tamanho_dado]; //Passa Dados
     }
 

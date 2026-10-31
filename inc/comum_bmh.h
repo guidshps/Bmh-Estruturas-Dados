@@ -42,18 +42,10 @@ typedef enum BmhStatus {
     BMH_ESTRUTURA_N_EXISTE = 3, BMH_ERRO = 4, BMH_USO_INCORRETO = 5
 } BmhStatus; //Retorna Status De Operações Realizadas
 
-typedef enum BmhConstantesComparacao {
-    BMH_DADOS_IGUAIS = 0,
-    BMH_1_MAIOR_QUE_2 = 1, BMH_2_MENOR_QUE_1 = 1,
-    BMH_2_MAIOR_QUE_1 = 2, BMH_1_MENOR_QUE_2 = 2,
-    BMH_1_NAO_EXISTE = 3, BMH_2_NAO_EXISTE = 4,
-} BmhConstantesComparacao;
-
 typedef void * BmhPonteiroQualquer; //Recebe Qualquer Tipo De Ponteiro
 typedef const void * BmhPonteiroQualquerCnst; //Recebe Um Ponteiro Constante
 typedef unsigned char BmhByte; //Variável Que Possui Tamanho De 1 Byte
 
-typedef BmhStatus(BmhAtribuicao)(BmhPonteiroQualquer, BmhPonteiroQualquer);
 typedef int(BmhComparador)(BmhPonteiroQualquerCnst, BmhPonteiroQualquerCnst);
 
 #endif
